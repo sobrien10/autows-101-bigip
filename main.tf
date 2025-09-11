@@ -76,7 +76,7 @@ resource "aws_security_group" "f5" {
 #Configure the mgmt interface and assign public IP
 resource "aws_network_interface" "mgmt" {
   subnet_id   = module.vpc.public_subnets[0]
-  private_ips = ["10.0.1.10"]
+  private_ips = ["10.0.1.100"]
   security_groups = [ aws_security_group.f5.id ]
 
   tags = {
@@ -87,13 +87,13 @@ resource "aws_network_interface" "mgmt" {
 resource "aws_eip" "mgmt" {
   domain                    = "vpc"
   network_interface         = aws_network_interface.mgmt.id
-  associate_with_private_ip = "10.0.1.10"
+  associate_with_private_ip = "10.0.1.100"
 }
 
 #Configure the public interface and assign public IP
 resource "aws_network_interface" "public" {
   subnet_id   = module.vpc.public_subnets[1]
-  private_ips = ["10.0.2.10", "10.0.2.11"]
+  private_ips = ["10.0.2.100", "10.0.2.101"]
   security_groups = [ aws_security_group.f5.id ]
 
   tags = {
@@ -104,13 +104,13 @@ resource "aws_network_interface" "public" {
 resource "aws_eip" "public" {
   domain                    = "vpc"
   network_interface         = aws_network_interface.public.id
-  associate_with_private_ip = "10.0.2.10"
+  associate_with_private_ip = "10.0.2.100"
 }
 
 #resource "aws_eip" "public2" {
   #vpc                       = true
   #network_interface         = aws_network_interface.public.id
-  #associate_with_private_ip = "10.0.2.11"
+  #associate_with_private_ip = "10.0.2.101"
 #}
 
 #Find the ami variable
@@ -136,7 +136,7 @@ data "aws_ami" "f5_ami" {
       password              = random_string.password.result
       doVersion             = "latest"
       #example version:    
-      #as3Version           = "3.16.0"
+      #as3Version           = "3.54.2"
       as3Version            = "latest"
       tsVersion             = "latest"
       cfVersion             = "latest"

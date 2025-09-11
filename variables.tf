@@ -10,7 +10,7 @@ variable "username" {
 
 variable "ssh_key_name" {
   description = "prefix for resources created"
-  default     = "OB1-key-sews"
+  default     = "OB1-keypair"
 }
 
 variable "f5_ami_search_name" {
